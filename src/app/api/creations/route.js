@@ -14,6 +14,11 @@ export async function GET(req) {
     const { searchParams } = new URL(req.url);
     const requestId = searchParams.get("requestId");
 
+    if (!businessProfileId) return new NextResponse("Choose a business profile before generating content.", { status: 400 });
+
+    const businessProfile = await prisma.businessProfile.findFirst({ where: { id: businessProfileId, userId: session.user.id } });
+    if (!businessProfile) return new NextResponse("Business profile not found.", { status: 404 });
+
     const headerApiKey = req.headers.get("x-custom-api-key");
     const customApiKey = headerApiKey || session.user.customApiKey || null;
 
@@ -60,7 +65,7 @@ export async function POST(req) {
     if (!session?.user) return new NextResponse("Unauthorized", { status: 401 });
 
     const body = await req.json();
-    const { topic, platformId, toneId, includeEmojis, includeHashtags, language, charLength, includeTitle } = body;
+    const { topic, platformId, toneId, includeEmojis, includeHashtags, language, charLength, includeTitle, businessProfileId } = body;
 
     if (!topic || topic.trim() === "") {
       return new NextResponse("Missing topic description", { status: 400 });
@@ -96,6 +101,7 @@ export async function POST(req) {
       charLength: charLength || "medium",
       includeTitle: includeTitle !== false,
       customApiKey,
+      businessProfile,
     });
 
     return NextResponse.json(creation);
