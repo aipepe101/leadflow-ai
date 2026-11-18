@@ -3,7 +3,7 @@ import { UserService } from "./user";
 import config, { SOCIAL_PLATFORMS, SOCIAL_TONES, LANGUAGES, LENGTHS } from "@/lib/config";
 
 export const AIService = {
-  async generateSocialPost(userId, { topic, platformId, toneId, includeEmojis, includeHashtags, language, charLength, includeTitle, customApiKey = null }) {
+  async generateSocialPost(userId, { topic, platformId, toneId, includeEmojis, includeHashtags, language, charLength, includeTitle, customApiKey = null, businessProfile = null }) {
     const isUsingCustomKey = Boolean(customApiKey && customApiKey.trim().length > 0);
     const cost = isUsingCustomKey ? 0 : config.ai.model.creditCost; // 4 credits
     
