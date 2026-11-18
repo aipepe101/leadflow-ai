@@ -22,6 +22,7 @@ import {
   FaGoogle,
 } from "react-icons/fa";
 import { SOCIAL_PLATFORMS, SOCIAL_TONES, LANGUAGES, LENGTHS } from "@/lib/config";
+import BusinessProfileManager from "@/components/BusinessProfileManager";
 
 const PLATFORM_ICONS = {
   FaLinkedin,
@@ -82,6 +83,8 @@ export default function WorkspacePage() {
   const { data: session, status: authStatus, update: updateSession } = useSession();
 
   const [topic, setTopic] = useState("");
+  const [selectedBusinessProfile, setSelectedBusinessProfile] = useState(null);
+  const handleBusinessProfileChange = useCallback((profile) => setSelectedBusinessProfile(profile), []);
   const [selectedPlatform, setSelectedPlatform] = useState(SOCIAL_PLATFORMS[0]);
   const [selectedTone, setSelectedTone] = useState(SOCIAL_TONES[0]);
   const [selectedLanguage, setSelectedLanguage] = useState(LANGUAGES[0]);
@@ -221,6 +224,7 @@ export default function WorkspacePage() {
           language: selectedLanguage.id,
           charLength: selectedLength.id,
           includeTitle,
+          businessProfileId: selectedBusinessProfile?.id,
         }),
       });
 
@@ -286,7 +290,7 @@ export default function WorkspacePage() {
   };
 
   const currentParsed = getParsedText(currentCreation);
-  const canGenerate = topic && topic.trim() !== "" && !generating && (session?.user?.credits ?? 0) >= creditCost;  // Render platform specific preview mock card
+  const canGenerate = topic && topic.trim() !== "" && Boolean(selectedBusinessProfile) && !generating && (session?.user?.credits ?? 0) >= creditCost;  // Render platform specific preview mock card
   const renderPreviewMock = () => {
     if (!currentCreation || currentCreation.status === "processing") {
       // Shimmer Skeleton
@@ -731,6 +735,7 @@ export default function WorkspacePage() {
 
   return (
     <div className="min-h-screen bg-zinc-950 flex flex-col">
+      {session?.user && <div className="w-full max-w-7xl mx-auto px-4 pt-4"><BusinessProfileManager onProfileChange={handleBusinessProfileChange} /></div>}
       <main className="flex-1 flex flex-col md:flex-row md:overflow-hidden overflow-y-auto max-w-7xl w-full mx-auto px-4 py-4 gap-4">
         {/* ─────────────── LEFT CONTROL PANEL ─────────────── */}
         <div className="w-full md:w-[400px] shrink-0 flex flex-col gap-4 md:overflow-y-auto overflow-visible pb-4">
