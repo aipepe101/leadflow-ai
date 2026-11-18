@@ -121,6 +121,7 @@ Ensure the copy is highly engaging, reads naturally, and captures the focus imme
       const creation = await prisma.socialPostCreation.create({
         data: {
           userId,
+          businessProfileId: businessProfile?.id || null,
           topic,
           platform: platform.name,
           tone: tone.name,
@@ -142,6 +143,7 @@ Ensure the copy is highly engaging, reads naturally, and captures the focus imme
       const creation = await prisma.socialPostCreation.create({
         data: {
           userId,
+          businessProfileId: businessProfile?.id || null,
           topic,
           platform: platform.name,
           tone: tone.name,
