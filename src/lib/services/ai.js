@@ -25,6 +25,7 @@ export const AIService = {
       const creation = await prisma.socialPostCreation.create({
         data: {
           userId,
+          businessProfileId: businessProfile?.id || null,
           topic,
           platform: platform.name,
           tone: tone.name,
@@ -74,9 +75,19 @@ You must respond ONLY with a raw JSON object (do not include markdown code block
   "headline": "A short catchy headline or main hook used in the post"
 }`;
 
-    const userPrompt = `Generate a social media post for ${platform.name} using a ${tone.name} tone of voice in ${langName}.
+    const businessContext = businessProfile ? `
+Business: ${businessProfile.businessName}
+Industry: ${businessProfile.industry}
+Services: ${(businessProfile.services || []).join(', ') || 'Not specified'}
+Service area: ${businessProfile.serviceArea || 'Not specified'}
+Business description: ${businessProfile.description || 'Not specified'}
+Brand voice: ${businessProfile.brandVoice || tone.name}
+Phone: ${businessProfile.phone || 'Not provided'}
+Website: ${businessProfile.website || 'Not provided'}
+Write specifically for this business and its local customers. Do not invent offers, credentials, or services.` : '';
+    const userPrompt = `Generate a social media post for ${platform.name} using a ${tone.name} tone of voice in ${langName}.${businessContext}
 Topic/Details: ${topic}
-Ensure the copy is highly engaging, reads naturally, and captures the user's focus immediately.`;
+Ensure the copy is highly engaging, reads naturally, and captures the focus immediately.`;
 
     try {
       const submitRes = await fetch("https://api.muapi.ai/api/v1/any-llm-models", {
