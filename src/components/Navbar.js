@@ -36,11 +36,13 @@ export default function Navbar() {
   const navLinks = currentAppId
     ? [
         { name: "Workspace", path: `/app/${currentAppId}` },
+        { name: "Leads", path: "/leads" },
         { name: "Gallery", path: `/app/${currentAppId}/gallery` },
         { name: "Pricing", path: `/app/${currentAppId}/pricing` },
       ]
     : [
-        { name: "Workspace", path: "/" },
+        { name: "Dashboard", path: "/" },
+        { name: "Leads", path: "/leads" },
         { name: "Gallery", path: "/gallery" },
         { name: "Pricing", path: "/pricing" },
       ];
