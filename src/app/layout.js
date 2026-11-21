@@ -9,13 +9,13 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "AI Social Post — Premium Social Media Post Generator",
+  title: "LeadFlow AI — Lead Management",
   description:
-    "Generate highly optimized, engaging social media posts with AI. Adapt descriptions, hooks, and call-to-actions specifically for LinkedIn, Twitter, Facebook, and Instagram instantly.",
+    "Capture and convert more business leads with LeadFlow AI. Adapt descriptions, hooks, and call-to-actions specifically for LinkedIn, Twitter, Facebook, and Instagram instantly.",
   keywords:
     "AI social media, post generator, LinkedIn generator, tweet generator, copywriter, digital marketing",
   openGraph: {
-    title: "AI Social Post — Premium Social Media Post Generator",
+    title: "LeadFlow AI — Lead Management",
     description:
       "Generate highly optimized, engaging social media posts with AI.",
     type: "website",
