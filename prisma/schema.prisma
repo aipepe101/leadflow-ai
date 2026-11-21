@@ -45,6 +45,7 @@ model User {
   sessions           Session[]
   SocialPostCreation SocialPostCreation[]
   businessProfiles   BusinessProfile[]
+  leads              Lead[]
 }
 
 model VerificationToken {
@@ -94,6 +95,26 @@ model BusinessProfile {
   updatedAt   DateTime @updatedAt
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   creations   SocialPostCreation[]
+  leads       Lead[]
 
   @@index([userId, industry])
+}
+
+model Lead {
+  id                String   @id @default(cuid())
+  userId            String
+  businessProfileId String
+  name              String
+  email             String?
+  phone             String?
+  source            String   @default("Manual entry")
+  status            String   @default("NEW")
+  notes             String?  @db.Text
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  businessProfile   BusinessProfile @relation(fields: [businessProfileId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([businessProfileId, status])
 }
