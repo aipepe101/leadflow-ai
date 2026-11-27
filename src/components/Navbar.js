@@ -37,6 +37,7 @@ export default function Navbar() {
     ? [
         { name: "Workspace", path: `/app/${currentAppId}` },
         { name: "Leads", path: "/leads" },
+        { name: "Website Form", path: "/leads/website-form" },
         { name: "Gallery", path: `/app/${currentAppId}/gallery` },
         { name: "Pricing", path: `/app/${currentAppId}/pricing` },
       ]
